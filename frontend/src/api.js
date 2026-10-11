@@ -35,3 +35,56 @@ export function formatClock(iso) {
 }
 
 export const REFRESH_SECONDS = CACHE_SECONDS
+
+/* ---------------- 导航板块 ---------------- */
+
+const ADMIN_TOKEN_KEY = 'tslld_admin_token'
+
+export const adminToken = {
+  get: () => localStorage.getItem(ADMIN_TOKEN_KEY) || '',
+  set: (t) => localStorage.setItem(ADMIN_TOKEN_KEY, t),
+  clear: () => localStorage.removeItem(ADMIN_TOKEN_KEY),
+}
+
+async function navWrite(path, method, body) {
+  const res = await fetch(path, {
+    method,
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Admin-Token': adminToken.get(),
+    },
+    body: body ? JSON.stringify(body) : undefined,
+  })
+  if (res.status === 401) {
+    const err = new Error('unauthorized')
+    err.unauthorized = true
+    throw err
+  }
+  if (!res.ok) {
+    let detail = `HTTP ${res.status}`
+    try {
+      detail = (await res.json()).detail || detail
+    } catch {
+      /* keep default */
+    }
+    throw new Error(detail)
+  }
+  return res.json()
+}
+
+export async function fetchNav() {
+  const res = await fetch('/api/nav')
+  if (!res.ok) throw new Error(`HTTP ${res.status}`)
+  return res.json()
+}
+
+export const navApi = {
+  auth: (password) => navWrite('/api/nav/auth', 'POST', { password }),
+  addCategory: (name) => navWrite('/api/nav/category', 'POST', { name }),
+  renameCategory: (id, name) => navWrite(`/api/nav/category/${id}`, 'PUT', { name }),
+  deleteCategory: (id) => navWrite(`/api/nav/category/${id}`, 'DELETE'),
+  addLink: (categoryId, name, url) =>
+    navWrite('/api/nav/link', 'POST', { category_id: categoryId, name, url }),
+  updateLink: (id, name, url) => navWrite(`/api/nav/link/${id}`, 'PUT', { name, url }),
+  deleteLink: (id) => navWrite(`/api/nav/link/${id}`, 'DELETE'),
+}

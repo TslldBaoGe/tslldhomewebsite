@@ -19,6 +19,14 @@ command -v docker >/dev/null || {
 }
 docker compose version >/dev/null 2>&1 || { echo "错误: 缺少 docker compose 插件，请升级 docker"; exit 1; }
 
+# 首次部署时引导设置管理密码（保存到 .env，compose 自动读取）
+if [ ! -f .env ] && [ -z "${ADMIN_PASSWORD:-}" ]; then
+  read -r -p "设置导航板块管理密码（将保存到 .env 文件）: " pw
+  [ -n "$pw" ] || { echo "必须设置管理密码"; exit 1; }
+  echo "ADMIN_PASSWORD=$pw" > .env
+  echo "已写入 .env"
+fi
+
 # 首次运行时克隆仓库；之后增量更新
 if [ ! -d .git ]; then
   if [ -n "$(ls -A . 2>/dev/null)" ]; then

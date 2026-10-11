@@ -11,6 +11,10 @@ services:
       - "${WEB_PORT:-8090}:8000" # 服务器上被占用时改 WEB_PORT 即可
     environment:
       - CACHE_TTL_SECONDS=${CACHE_TTL_SECONDS:-300}
+      - ADMIN_PASSWORD=${ADMIN_PASSWORD:?请在 .env 或环境变量中设置管理密码} # 导航板块管理密码
+      - DATA_DIR=/app/data
+    volumes:
+      - ./data:/app/data # 导航书签数据持久化，重建容器不丢
     healthcheck:
       test:
         [

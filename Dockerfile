@@ -17,6 +17,7 @@ RUN npm run build
 FROM ${DOCKERHUB_MIRROR}/python:3.12-slim
 WORKDIR /app
 ENV FRONTEND_DIST=/app/frontend/dist
+ENV DATA_DIR=/app/data
 
 COPY backend/requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt

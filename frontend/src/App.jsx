@@ -2,8 +2,10 @@ import { useCallback, useEffect, useState } from 'react'
 import { fetchNews, REFRESH_SECONDS } from './api.js'
 import Masthead from './components/Masthead.jsx'
 import Hotboard from './components/Hotboard.jsx'
+import NavPage from './components/NavPage.jsx'
 
 export default function App() {
+  const [view, setView] = useState('news') // news | nav
   const [platform, setPlatform] = useState('weibo')
   const [boards, setBoards] = useState(null)
   const [updatedAt, setUpdatedAt] = useState(null)
@@ -54,21 +56,42 @@ export default function App() {
         onRefresh={() => load(true)}
       />
       <main className="main">
+        <nav className="sections" aria-label="板块切换">
+          <button
+            className={view === 'news' ? 'sec active' : 'sec'}
+            onClick={() => setView('news')}
+          >
+            新闻板块
+          </button>
+          <button
+            className={view === 'nav' ? 'sec active' : 'sec'}
+            onClick={() => setView('nav')}
+          >
+            导航板块
+          </button>
+          <span className="sec-rule" aria-hidden="true" />
+        </nav>
+
         {errors._global && (
           <div className="notice error">
             <p>{errors._global}</p>
             <button onClick={() => load(true)}>重试</button>
           </div>
         )}
-        <Hotboard
-          boards={boards}
-          platform={platform}
-          onPlatform={setPlatform}
-          loading={loading}
-          errors={errors}
-          refreshing={refreshing}
-          onRefresh={() => load(true)}
-        />
+
+        {view === 'nav' ? (
+          <NavPage />
+        ) : (
+          <Hotboard
+            boards={boards}
+            platform={platform}
+            onPlatform={setPlatform}
+            loading={loading}
+            errors={errors}
+            refreshing={refreshing}
+            onRefresh={() => load(true)}
+          />
+        )}
       </main>
       <footer className="footer">
         <p>数据来源：微博 · 抖音 · 知乎 · B站 · 鱼皮AI导航，每 {Math.round(REFRESH_SECONDS / 60)} 分钟自动更新</p>

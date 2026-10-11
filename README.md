@@ -1,6 +1,7 @@
 # TSLL 热榜
 
-个人网站 · 新闻板块：聚合**微博、抖音、知乎、B站**热搜与**鱼皮AI导航 AI 资讯**，每 5 分钟自动更新。
+个人综合网站：**新闻板块**（微博、抖音、知乎、B站热搜 + 鱼皮AI导航 AI 资讯，每 5 分钟自动更新）
++ **导航板块**（可自主管理的书签导航，支持分类）。
 
 技术栈：React 19 + Vite（前端）/ Python FastAPI（后端）
 
@@ -21,6 +22,20 @@ tslldwebsite/
     │   ├── components/    Masthead（报头）/ Hotboard（榜单）
     │   └── styles.css     「编辑部夜班」主题
     └── start.bat          一键启动前端（127.0.0.1:5173）
+```
+
+## 导航板块
+
+页面右上角「管理」输入管理密码（环境变量 `ADMIN_PASSWORD`，**部署前务必改掉默认值**）即可进入编辑模式：
+新建/重命名/删除分类，添加、修改、删除导航，操作即时保存。
+
+- 数据存在 `data/nav.json`（Docker 中挂载为卷，重建容器不丢）
+- 批量导入本地文件夹（子文件夹→分类，`.url`/`.desktop`/`.txt`/书签`.html`→链接）：
+
+```bash
+cd backend
+.venv\Scripts\python scripts\import_nav_folder.py <文件夹或书签HTML路径>
+# 写入 app/seed_nav.json 后重启后端生效；服务器上重新 deploy.sh 即可带上
 ```
 
 ## 服务器部署（Docker，推荐）
@@ -76,6 +91,10 @@ start.bat
 | `GET /api/news/zhihu` | 知乎热榜 30 条 |
 | `GET /api/news/bilibili` | B站热搜 50 条 |
 | `GET /api/news/codefather` | AI 资讯（鱼皮AI导航）20 条，带摘要 |
+| `GET /api/nav` | 导航板块数据（分类 + 链接） |
+| `POST /api/nav/auth` | 校验管理密码 |
+| `POST/PUT/DELETE /api/nav/category[...]` | 分类管理（需 `X-Admin-Token`） |
+| `POST/PUT/DELETE /api/nav/link[...]` | 导航管理（需 `X-Admin-Token`） |
 | `GET /api/health` | 健康检查 |
 
 数据说明：
