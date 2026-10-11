@@ -11,8 +11,13 @@ REPO_URL="https://github.com/TslldBaoGe/tslldhomewebsite.git"
 WEB_PORT="${WEB_PORT:-8090}"
 export WEB_PORT
 
-command -v docker >/dev/null || { echo "错误: 未安装 docker"; exit 1; }
-docker compose version >/dev/null 2>&1 || { echo "错误: 缺少 docker compose 插件"; exit 1; }
+command -v docker >/dev/null || {
+  echo "错误: 未安装 docker，请先执行:"
+  echo "  curl -fsSL https://get.docker.com | bash -s docker --mirror Aliyun"
+  echo "  sudo systemctl enable --now docker"
+  exit 1
+}
+docker compose version >/dev/null 2>&1 || { echo "错误: 缺少 docker compose 插件，请升级 docker"; exit 1; }
 
 # 首次运行时克隆仓库；之后增量更新
 if [ ! -d .git ]; then
