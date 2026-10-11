@@ -1,0 +1,25 @@
+services:
+  web:
+    build:
+      context: .
+      args:
+        DOCKERHUB_MIRROR: ${DOCKERHUB_MIRROR:-docker.m.daocloud.io}
+        NPM_REGISTRY: ${NPM_REGISTRY:-https://registry.npmmirror.com}
+    container_name: tslldwebsite
+    restart: unless-stopped
+    ports:
+      - "${WEB_PORT:-8090}:8000" # 服务器上被占用时改 WEB_PORT 即可
+    environment:
+      - CACHE_TTL_SECONDS=${CACHE_TTL_SECONDS:-300}
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "python",
+          "-c",
+          "import urllib.request as u; u.urlopen('http://127.0.0.1:8000/api/health').read()",
+        ]
+      interval: 30s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
