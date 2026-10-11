@@ -13,6 +13,7 @@ from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from .cache import TTLCache
+from . import nav_import
 from .sources import bilibili, codefather, douyin, weibo, zhihu
 from .store import (
     NavStore,
@@ -20,6 +21,7 @@ from .store import (
     add_link,
     delete_category,
     delete_link,
+    merge_import,
     rename_category,
     update_link,
 )
@@ -217,6 +219,46 @@ async def nav_delete_link(lid: str):
         return await nav_store.mutate(lambda d: delete_link(d, lid))
     except KeyError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
+
+
+class ImportIn(BaseModel):
+    path: str
+    mode: str = "merge"  # merge=按分类合并去重, replace=覆盖全部
+
+
+@app.post("/api/nav/import", dependencies=[Depends(require_admin)])
+async def nav_import_folder(body: ImportIn):
+    """读取服务器本地文件夹/书签 HTML 并导入导航板块。"""
+    path = Path(body.path.strip().strip('"'))
+    if body.mode not in ("merge", "replace"):
+        raise HTTPException(status_code=400, detail="mode 只能是 merge 或 replace")
+    if not path.exists():
+        raise HTTPException(status_code=400, detail=f"路径不存在：{path}")
+    try:
+        if path.is_file():
+            groups = nav_import.parse_html_bookmarks(path)
+            skipped: list[str] = []
+        else:
+            groups, skipped = nav_import.from_directory(path)
+    except OSError as exc:
+        raise HTTPException(status_code=400, detail=f"读取失败：{exc}") from exc
+
+    categories = nav_import.build_categories(groups)
+    if not categories:
+        raise HTTPException(
+            status_code=400,
+            detail="没有提取到任何链接（支持 .url/.desktop/.txt 及书签导出的 .html）",
+        )
+
+    data = await nav_store.mutate(lambda d: merge_import(d, categories, body.mode))
+    return {
+        "data": data,
+        "imported": {
+            "categories": len(categories),
+            "links": sum(len(c["links"]) for c in categories),
+        },
+        "skipped": skipped[:8],
+    }
 
 
 # Production mode: serve the built frontend from the same port as the API.

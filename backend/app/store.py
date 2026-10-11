@@ -165,3 +165,41 @@ def update_link(data: dict, lid: str, name: str, url: str) -> dict:
 def delete_link(data: dict, lid: str) -> None:
     cat, link = _get_link(data, lid)
     cat["links"].remove(link)
+
+
+def merge_import(data: dict, categories: list[dict], mode: str = "merge") -> dict:
+    """把 nav_import.build_categories 的结果并入数据。
+
+    mode=merge:   按分类名合并，链接按 url 去重后追加
+    mode=replace: 清空现有分类后整体导入
+    """
+    if mode == "replace":
+        data["categories"] = [
+            {
+                "id": _new_id(),
+                "name": cat["name"],
+                "links": [
+                    {"id": _new_id(), "name": link["name"], "url": normalize_url(link["url"])}
+                    for link in cat["links"]
+                ],
+            }
+            for cat in categories
+        ]
+        return data
+
+    for cat in categories:
+        existing = next(
+            (c for c in data["categories"] if c["name"] == cat["name"]), None
+        )
+        if existing is None:
+            existing = {"id": _new_id(), "name": cat["name"], "links": []}
+            data["categories"].append(existing)
+        seen = {link["url"] for link in existing["links"]}
+        for link in cat["links"]:
+            url = normalize_url(link["url"])
+            if url not in seen:
+                seen.add(url)
+                existing["links"].append(
+                    {"id": _new_id(), "name": link["name"], "url": url}
+                )
+    return data

@@ -87,4 +87,5 @@ export const navApi = {
     navWrite('/api/nav/link', 'POST', { category_id: categoryId, name, url }),
   updateLink: (id, name, url) => navWrite(`/api/nav/link/${id}`, 'PUT', { name, url }),
   deleteLink: (id) => navWrite(`/api/nav/link/${id}`, 'DELETE'),
+  importFolder: (path, mode) => navWrite('/api/nav/import', 'POST', { path, mode }),
 }

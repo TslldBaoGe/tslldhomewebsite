@@ -15,6 +15,8 @@ services:
       - DATA_DIR=/app/data
     volumes:
       - ./data:/app/data # 导航书签数据持久化，重建容器不丢
+      # 想在网页上导入服务器本地文件夹时，把宿主机目录挂进来，例如：
+      # - /root/bookmarks:/mnt/bookmarks:ro
     healthcheck:
       test:
         [

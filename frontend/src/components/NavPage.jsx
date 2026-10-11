@@ -24,13 +24,16 @@ export default function NavPage() {
     load()
   }, [load])
 
-  // 所有管理操作的统一入口：拿到接口返回的最新数据直接刷新视图
+  // 所有管理操作的统一入口：拿到接口返回的最新数据直接刷新视图；
+  // 返回 {ok, error} 让调用方（如导入面板）能在自己位置提示错误
   const run = useCallback(
     async (fn) => {
       setBusy(true)
       try {
-        setData(await fn())
+        const data = await fn()
+        setData(data)
         setPwErr('')
+        return { ok: true, data }
       } catch (err) {
         if (err.unauthorized) {
           adminToken.clear()
@@ -38,9 +41,10 @@ export default function NavPage() {
           setEditing(false)
           setShowPw(true)
           setPwErr('登录已失效，请重新输入管理密码')
-        } else {
-          setPwErr(err.message)
+          return { ok: false, error: '登录已失效' }
         }
+        setPwErr(err.message)
+        return { ok: false, error: err.message }
       } finally {
         setBusy(false)
       }
@@ -130,8 +134,12 @@ export default function NavPage() {
       </div>
 
       {editing && (
-        <p className="nav-hint">编辑模式：可直接新增/重命名分类，添加、修改或删除导航，操作即时保存。</p>
+        <p className="nav-hint">
+          编辑模式：可直接新增/重命名分类，添加、修改或删除导航，操作即时保存；也可以在下方输入本地文件夹路径批量导入书签。
+        </p>
       )}
+
+      {editing && <ImportPanel run={run} busy={busy} />}
 
       {loadErr && (
         <div className="notice error">
@@ -161,6 +169,55 @@ export default function NavPage() {
         <p className="nav-empty">还没有导航内容，点击右上角「管理」添加你的第一个分类。</p>
       )}
     </section>
+  )
+}
+
+/* ---------------- 从本地文件夹导入 ---------------- */
+
+function ImportPanel({ run, busy }) {
+  const [path, setPath] = useState('')
+  const [mode, setMode] = useState('merge')
+  const [msg, setMsg] = useState(null) // {ok, text}
+
+  async function save(e) {
+    e.preventDefault()
+    if (!path.trim()) return
+    setMsg(null)
+    let stats = null
+    const res = await run(() =>
+      navApi.importFolder(path, mode).then((r) => {
+        stats = r.imported
+        return r.data // 接口返回 {data, imported, skipped}，数据视图只需要 data
+      }),
+    )
+    if (res.ok) {
+      setMsg({
+        ok: true,
+        text: `已保存：导入 ${stats.categories} 个分类 / ${stats.links} 条导航`,
+      })
+    } else {
+      setMsg({ ok: false, text: res.error })
+    }
+  }
+
+  return (
+    <form className="import-panel" onSubmit={save}>
+      <span className="import-label">从本地文件夹导入</span>
+      <input
+        className="import-path"
+        value={path}
+        onChange={(e) => setPath(e.target.value)}
+        placeholder="输入文件夹路径，如 D:\书签导航 或 /home/me/bookmarks（也支持单个书签 .html 文件路径）"
+      />
+      <select className="import-mode" value={mode} onChange={(e) => setMode(e.target.value)}>
+        <option value="merge">合并现有</option>
+        <option value="replace">覆盖全部</option>
+      </select>
+      <button className="mini-btn" disabled={busy || !path.trim()}>
+        保存
+      </button>
+      {msg && <span className={msg.ok ? 'pw-ok' : 'pw-err'}>{msg.text}</span>}
+    </form>
   )
 }
 
