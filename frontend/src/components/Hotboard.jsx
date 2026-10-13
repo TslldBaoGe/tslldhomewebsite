@@ -1,11 +1,11 @@
 import { formatHot } from '../api.js'
 
 const PLATFORMS = [
-  { id: 'weibo', name: '微博热搜', hue: 'weibo' },
-  { id: 'douyin', name: '抖音热搜', hue: 'douyin' },
-  { id: 'zhihu', name: '知乎热榜', hue: 'zhihu' },
-  { id: 'bilibili', name: 'B站热搜', hue: 'bilibili' },
   { id: 'codefather', name: 'AI资讯', hue: 'codefather' },
+  { id: 'zhihu', name: '知乎热榜', hue: 'zhihu' },
+  { id: 'douyin', name: '抖音热搜', hue: 'douyin' },
+  { id: 'weibo', name: '微博热搜', hue: 'weibo' },
+  { id: 'bilibili', name: 'B站热搜', hue: 'bilibili' },
 ]
 
 const TAG_CLASS = {

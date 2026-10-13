@@ -6,7 +6,7 @@ import NavPage from './components/NavPage.jsx'
 
 export default function App() {
   const [view, setView] = useState('news') // news | nav
-  const [platform, setPlatform] = useState('weibo')
+  const [platform, setPlatform] = useState('codefather')
   const [boards, setBoards] = useState(null)
   const [updatedAt, setUpdatedAt] = useState(null)
   const [errors, setErrors] = useState({})
