@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react'
-import { fetchNav, navApi, adminToken, linkTarget } from '../api.js'
+import { fetchNav, navApi, adminToken } from '../api.js'
 
 export default function NavPage() {
   const [data, setData] = useState(null)
@@ -342,13 +342,7 @@ function LinkRow({ link, editing, run, busy }) {
       <span className={`avatar av-${(link.name.charCodeAt(0) || 0) % 4}`}>
         {(link.name.trim()[0] || '?').toUpperCase()}
       </span>
-      <a
-        className="name"
-        href={link.url}
-        target={linkTarget()}
-        rel={linkTarget() === '_blank' ? 'noreferrer' : undefined}
-        title={link.url}
-      >
+      <a className="name" href={link.url} title={link.url}>
         {link.name}
       </a>
       {editing && (
