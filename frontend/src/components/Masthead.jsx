@@ -1,8 +1,58 @@
-import { useMemo } from 'react'
+import { useMemo, useState } from 'react'
 import { formatClock, REFRESH_SECONDS } from '../api.js'
 
 const RING_R = 7
 const RING_C = 2 * Math.PI * RING_R
+
+const THEME_KEY = 'tslld_theme'
+
+function ThemeToggle() {
+  const [theme, setTheme] = useState(
+    () => document.documentElement.dataset.theme || 'light',
+  )
+
+  function toggle() {
+    const next = theme === 'light' ? 'dark' : 'light'
+    document.documentElement.dataset.theme = next
+    try {
+      localStorage.setItem(THEME_KEY, next)
+    } catch {
+      /* localStorage 不可用时仅本次会话生效 */
+    }
+    setTheme(next)
+  }
+
+  return (
+    <button
+      className="theme-btn"
+      onClick={toggle}
+      title={theme === 'light' ? '切换到夜班模式' : '切换到晨间模式'}
+    >
+      {theme === 'light' ? (
+        <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true">
+          <path
+            d="M10.8 9.8A4.8 4.8 0 0 1 6.2 2.2a5.6 5.6 0 1 0 6.9 7.6 4.9 4.9 0 0 1-2.3 0z"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="1.4"
+            strokeLinejoin="round"
+          />
+        </svg>
+      ) : (
+        <svg viewBox="0 0 16 16" width="13" height="13" aria-hidden="true">
+          <circle cx="8" cy="8" r="3.1" fill="none" stroke="currentColor" strokeWidth="1.4" />
+          <path
+            d="M8 1.2v1.9M8 12.9v1.9M1.2 8h1.9M12.9 8h1.9M3.2 3.2l1.3 1.3M11.5 11.5l1.3 1.3M12.8 3.2l-1.3 1.3M4.5 11.5l-1.3 1.3"
+            stroke="currentColor"
+            strokeWidth="1.3"
+            strokeLinecap="round"
+          />
+        </svg>
+      )}
+      {theme === 'light' ? '夜班' : '晨间'}
+    </button>
+  )
+}
 
 export default function Masthead({ updatedAt, secondsLeft, refreshing, onRefresh }) {
   const dateStr = useMemo(() => {
@@ -67,6 +117,7 @@ export default function Masthead({ updatedAt, secondsLeft, refreshing, onRefresh
               </svg>
               手动刷新
             </button>
+            <ThemeToggle />
           </div>
         </div>
       </div>

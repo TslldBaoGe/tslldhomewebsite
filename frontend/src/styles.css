@@ -1,9 +1,47 @@
 /* ============================================================
-   TSLL 热榜 · 「编辑部夜班」主题
-   暖墨黑 + 陈年纸白 + 朱砂红，报纸编辑部的深夜气质
+   TSLL 热榜 · 双主题
+   浅色「晨间版」：陈年纸面 + 墨字 + 朱砂点缀（默认）
+   深色「夜班编辑室」：暖墨黑 + 纸白 + 朱砂红
    ============================================================ */
 
 :root {
+  /* 晨间（浅色）调色板 */
+  --ink: #f2ecdf;
+  --ink-raised: #e9e2cf;
+  --line: #dbd1bb;
+  --line-strong: #b8a888;
+  --paper: #3f362a;
+  --paper-bright: #211a10;
+  --paper-dim: #7b6d55;
+  --paper-faint: #a5977d;
+
+  --vermilion: #d8402a;
+  --ember: #c14a1d;
+  --amber: #a06f14;
+  --copper: #8f5a2b;
+  --jade: #2e7d54;
+  --crimson: #bb2430;
+  --violet: #7452b5;
+  --rose: #bb4a6b;
+
+  --hover-tint: rgba(63, 54, 42, 0.055);
+  --surface-tint: rgba(255, 255, 255, 0.5);
+  --shimmer-hi: #f7f2e6;
+  --error-fg: #a83a2e;
+  --ok-fg: #2e7d54;
+  --grain-opacity: 0.045;
+  --glow-a: rgba(216, 64, 42, 0.06);
+  --glow-b: rgba(160, 111, 20, 0.05);
+
+  --serif: 'Noto Serif SC', 'Source Han Serif SC', 'Songti SC', SimSun, Georgia, serif;
+  --fang: FangSong, STFangsong, 'Noto Serif SC', serif;
+  --num: Bahnschrift, 'Segoe UI', 'Arial Narrow', sans-serif;
+}
+
+html[data-theme='dark'] {
+  color-scheme: dark;
+
+  /* 夜班（深色）调色板 */
   --ink: #16120d;
   --ink-raised: #221c14;
   --line: #352c1f;
@@ -13,7 +51,7 @@
   --paper-dim: #a08f74;
   --paper-faint: #6d5f4a;
 
-  --vermilion: #e84a2d;
+  --vermilion: #e8492d;
   --ember: #ff6a3a;
   --amber: #e0a43e;
   --copper: #b97a45;
@@ -22,9 +60,14 @@
   --violet: #a583d8;
   --rose: #d87093;
 
-  --serif: 'Noto Serif SC', 'Source Han Serif SC', 'Songti SC', SimSun, Georgia, serif;
-  --fang: FangSong, STFangsong, 'Noto Serif SC', serif;
-  --num: Bahnschrift, 'Segoe UI', 'Arial Narrow', sans-serif;
+  --hover-tint: rgba(236, 225, 203, 0.045);
+  --surface-tint: rgba(236, 225, 203, 0.028);
+  --shimmer-hi: #2c2417;
+  --error-fg: #edb9ae;
+  --ok-fg: #63b48c;
+  --grain-opacity: 0.055;
+  --glow-a: rgba(232, 74, 45, 0.09);
+  --glow-b: rgba(224, 164, 62, 0.06);
 }
 
 * {
@@ -32,7 +75,7 @@
 }
 
 html {
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 body {
@@ -42,6 +85,9 @@ body {
   font-family: var(--serif);
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
+  transition:
+    background-color 0.25s,
+    color 0.25s;
 }
 
 /* 纸纹噪点 */
@@ -52,10 +98,10 @@ body::before {
   z-index: 0;
   pointer-events: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='160' height='160' filter='url(%23n)' opacity='0.55'/%3E%3C/svg%3E");
-  opacity: 0.055;
+  opacity: var(--grain-opacity);
 }
 
-/* 顶部朱砂微光 + 底部琥珀微光 */
+/* 朱砂微光 + 琥珀微光 */
 body::after {
   content: '';
   position: fixed;
@@ -63,8 +109,8 @@ body::after {
   z-index: 0;
   pointer-events: none;
   background:
-    radial-gradient(52rem 30rem at 12% -8%, rgba(232, 74, 45, 0.09), transparent 62%),
-    radial-gradient(46rem 26rem at 96% 108%, rgba(224, 164, 62, 0.06), transparent 60%);
+    radial-gradient(52rem 30rem at 12% -8%, var(--glow-a), transparent 62%),
+    radial-gradient(46rem 26rem at 96% 108%, var(--glow-b), transparent 60%);
 }
 
 ::selection {
@@ -228,6 +274,29 @@ body::after {
   animation: spin 0.8s linear infinite;
 }
 
+.theme-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: none;
+  border: 1px solid var(--line-strong);
+  color: var(--paper-dim);
+  font-family: var(--fang);
+  font-size: 13px;
+  letter-spacing: 0.14em;
+  padding: 6px 13px;
+  border-radius: 999px;
+  cursor: pointer;
+  transition:
+    color 0.15s,
+    border-color 0.15s;
+}
+
+.theme-btn:hover {
+  color: var(--amber);
+  border-color: var(--amber);
+}
+
 /* ------------------------------------------------ 版面切换 */
 
 .main {
@@ -352,7 +421,7 @@ body::after {
 }
 
 .row:hover {
-  background: rgba(236, 225, 203, 0.045);
+  background: var(--hover-tint);
 }
 
 .rank {
@@ -520,7 +589,7 @@ body::after {
 .row.skeleton .hotnum {
   color: transparent;
   border-radius: 4px;
-  background: linear-gradient(90deg, var(--ink-raised) 25%, #2c2417 45%, var(--ink-raised) 65%);
+  background: linear-gradient(90deg, var(--ink-raised) 25%, var(--shimmer-hi) 45%, var(--ink-raised) 65%);
   background-size: 200% 100%;
   animation: shimmer 1.5s linear infinite;
 }
@@ -549,7 +618,7 @@ body::after {
   font-family: var(--fang);
   font-size: 14px;
   letter-spacing: 0.05em;
-  color: #edb9ae;
+  color: var(--error-fg);
   line-height: 1.6;
 }
 
@@ -557,7 +626,7 @@ body::after {
   flex: none;
   background: none;
   border: 1px solid rgba(212, 58, 69, 0.6);
-  color: #f0a99e;
+  color: var(--error-fg);
   font-family: var(--fang);
   font-size: 13px;
   letter-spacing: 0.14em;
@@ -571,7 +640,7 @@ body::after {
 
 .notice button:hover:not(:disabled) {
   background: rgba(212, 58, 69, 0.22);
-  color: #fff8ea;
+  color: var(--paper-bright);
 }
 
 .notice button:disabled {
@@ -722,7 +791,7 @@ body::after {
 .pw-err {
   font-family: var(--fang);
   font-size: 12.5px;
-  color: #e58a7d;
+  color: var(--error-fg);
 }
 
 .nav-hint {
@@ -744,7 +813,7 @@ body::after {
 .nav-cat {
   border: 1px solid var(--line);
   border-radius: 8px;
-  background: rgba(236, 225, 203, 0.028);
+  background: var(--surface-tint);
   padding: 14px 14px 12px;
   transition: border-color 0.2s;
 }
@@ -852,7 +921,7 @@ body::after {
 }
 
 .nav-link:hover {
-  background: rgba(236, 225, 203, 0.05);
+  background: var(--hover-tint);
 }
 
 .avatar {
@@ -988,7 +1057,7 @@ body::after {
 .nav-cat.skeleton {
   min-height: 130px;
   background:
-    linear-gradient(90deg, var(--ink-raised) 25%, #2c2417 45%, var(--ink-raised) 65%)
+    linear-gradient(90deg, var(--ink-raised) 25%, var(--shimmer-hi) 45%, var(--ink-raised) 65%)
       0 0 / 200% 100%,
     var(--ink-raised);
   animation: shimmer 1.5s linear infinite;
@@ -1014,7 +1083,7 @@ body::after {
   padding: 11px 14px;
   border: 1px dashed var(--line-strong);
   border-radius: 8px;
-  background: rgba(236, 225, 203, 0.03);
+  background: var(--surface-tint);
 }
 
 .import-label {
@@ -1058,7 +1127,7 @@ body::after {
 .pw-ok {
   font-family: var(--fang);
   font-size: 12.5px;
-  color: var(--jade);
+  color: var(--ok-fg);
 }
 
 /* ------------------------------------------------ 页脚 */
