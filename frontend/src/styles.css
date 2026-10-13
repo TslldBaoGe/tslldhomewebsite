@@ -5,15 +5,15 @@
    ============================================================ */
 
 :root {
-  /* 晨间（浅色）调色板 */
-  --ink: #f2ecdf;
-  --ink-raised: #e9e2cf;
-  --line: #dbd1bb;
-  --line-strong: #b8a888;
-  --paper: #3f362a;
-  --paper-bright: #211a10;
-  --paper-dim: #7b6d55;
-  --paper-faint: #a5977d;
+  /* 晨间（浅色）调色板 —— 白底 */
+  --ink: #ffffff;
+  --ink-raised: #f4f3ef;
+  --line: #e4e2dc;
+  --line-strong: #c6c3ba;
+  --paper: #2e2a24;
+  --paper-bright: #14110c;
+  --paper-dim: #6e6960;
+  --paper-faint: #99948a;
 
   --vermilion: #d8402a;
   --ember: #c14a1d;
@@ -24,14 +24,14 @@
   --violet: #7452b5;
   --rose: #bb4a6b;
 
-  --hover-tint: rgba(63, 54, 42, 0.055);
-  --surface-tint: rgba(255, 255, 255, 0.5);
-  --shimmer-hi: #f7f2e6;
+  --hover-tint: rgba(46, 42, 36, 0.05);
+  --surface-tint: rgba(0, 0, 0, 0.025);
+  --shimmer-hi: #ecebe6;
   --error-fg: #a83a2e;
   --ok-fg: #2e7d54;
-  --grain-opacity: 0.045;
-  --glow-a: rgba(216, 64, 42, 0.06);
-  --glow-b: rgba(160, 111, 20, 0.05);
+  --grain-opacity: 0.035;
+  --glow-a: rgba(216, 64, 42, 0.05);
+  --glow-b: rgba(160, 111, 20, 0.04);
 
   --serif: 'Noto Serif SC', 'Source Han Serif SC', 'Songti SC', SimSun, Georgia, serif;
   --fang: FangSong, STFangsong, 'Noto Serif SC', serif;
@@ -85,9 +85,6 @@ body {
   font-family: var(--serif);
   -webkit-font-smoothing: antialiased;
   min-height: 100vh;
-  transition:
-    background-color 0.25s,
-    color 0.25s;
 }
 
 /* 纸纹噪点 */
