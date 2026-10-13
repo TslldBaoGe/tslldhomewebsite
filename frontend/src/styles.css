@@ -453,10 +453,9 @@ body::after {
 .title {
   font-family: var(--serif);
   font-size: 15.5px;
+  line-height: 1.5;
   color: var(--paper);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  word-break: break-word;
   transition: color 0.15s;
 }
 
