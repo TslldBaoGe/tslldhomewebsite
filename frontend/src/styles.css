@@ -1231,6 +1231,20 @@ button:focus-visible {
 
   .status {
     justify-content: flex-start;
+    flex-wrap: wrap;
+    row-gap: 8px;
+  }
+
+  .refresh,
+  .theme-btn {
+    padding: 5px 11px;
+    font-size: 12px;
+  }
+
+  .tab {
+    font-size: 14px;
+    padding: 9px 12px 10px;
+    gap: 7px;
   }
 
   .row {
@@ -1239,11 +1253,24 @@ button:focus-visible {
     padding: 11px 6px 13px;
   }
 
-  .title {
+  /* 手机上标题换行完整显示，不再截断省略 */
+  .row .title {
+    white-space: normal;
     font-size: 15.5px;
+    line-height: 1.5;
+    word-break: break-word;
+  }
+
+  .hotnum {
+    min-width: 3.8em;
+    font-size: 13px;
   }
 
   .kicker {
     letter-spacing: 0.2em;
+  }
+
+  .nav-grid {
+    grid-template-columns: 1fr;
   }
 }
