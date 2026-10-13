@@ -36,6 +36,13 @@ export function formatClock(iso) {
 
 export const REFRESH_SECONDS = CACHE_SECONDS
 
+// 触屏设备（手机/平板）在当前页打开链接，返回键即可回榜单；
+// 桌面端保留新标签页，方便多开对比
+export function linkTarget() {
+  if (typeof window === 'undefined' || !window.matchMedia) return '_blank'
+  return window.matchMedia('(pointer: coarse)').matches ? '_self' : '_blank'
+}
+
 /* ---------------- 导航板块 ---------------- */
 
 const ADMIN_TOKEN_KEY = 'tslld_admin_token'

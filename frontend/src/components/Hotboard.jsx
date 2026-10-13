@@ -1,4 +1,4 @@
-import { formatHot } from '../api.js'
+import { formatHot, linkTarget } from '../api.js'
 
 const PLATFORMS = [
   { id: 'weibo', name: '微博热搜', hue: 'weibo' },
@@ -27,6 +27,8 @@ export default function Hotboard({ boards, platform, onPlatform, loading, errors
   // 没有热度数据的平台（如 AI 资讯）按资讯流样式渲染
   const isFeed = items.length > 0 && items.every((it) => !it.hot)
   const maxHot = items.reduce((m, it) => Math.max(m, it.hot ?? 0), 0) || 1
+  const target = linkTarget()
+  const linkProps = target === '_blank' ? { target, rel: 'noreferrer' } : {}
 
   return (
     <section className="hotboard" aria-label="热搜榜">
@@ -67,8 +69,7 @@ export default function Hotboard({ boards, platform, onPlatform, loading, errors
                 <a
                   className="row feed"
                   href={item.url}
-                  target="_blank"
-                  rel="noreferrer"
+                  {...linkProps}
                   style={{ '--d': `${Math.min(i, 20) * 28}ms` }}
                 >
                   <span className="title">{item.title}</span>
@@ -80,8 +81,7 @@ export default function Hotboard({ boards, platform, onPlatform, loading, errors
                 <a
                   className="row"
                   href={item.url}
-                  target="_blank"
-                  rel="noreferrer"
+                  {...linkProps}
                   style={{
                     '--d': `${Math.min(i, 20) * 28}ms`,
                     '--heat': `${Math.max(2, Math.round(((item.hot ?? 0) / maxHot) * 100))}%`,
