@@ -1,0 +1,323 @@
+"""英语语法知识库（自包含，无外部数据源）。
+
+每个知识点包含：标题、一句话说明、详细解释、中英例句、要点、常见错点、小练习。
+设计目标：在网页里点一点就能看懂一个语法点，而不是只查定义。
+"""
+
+from __future__ import annotations
+
+from pathlib import Path
+
+SEED_FILE = Path(__file__).resolve().parent / "seed_grammar.json"
+
+
+def _builtin() -> dict:
+    return {
+        "categories": [
+            {
+                "id": "basics",
+                "name": "基础语法",
+                "items": [
+                    {
+                        "id": "be-verb",
+                        "title": "be 动词 (am / is / are)",
+                        "summary": "人称与 be 动词的对应关系，英语句子的基石",
+                        "explanation": (
+                            "英语里几乎每个句子都需要一个谓语动词，be 动词（am/is/are）最常用。"
+                            "它的核心作用是“是 / 在 / 有”，不表示动作，只表示状态或身份。"
+                            "选择规则只看主语的人称和数量："
+                        ),
+                        "examples": [
+                            {"en": "I am a student.", "zh": "我是学生。"},
+                            {"en": "She is tall.", "zh": "她很高。"},
+                            {"en": "They are friends.", "zh": "他们是朋友。"},
+                        ],
+                        "points": [
+                            "主语用 I → 用 am",
+                            "主语是 he / she / it 或单数名词 → 用 is",
+                            "主语是 you / we / they 或复数名词 → 用 are",
+                        ],
+                        "mistakes": [
+                            "❌ I is a student。（主语和动词不配对）",
+                            "❌ She am tall。（人称用错了）",
+                        ],
+                        "quiz": [
+                            {
+                                "q": "He ___ my brother.",
+                                "options": ["am", "is", "are"],
+                                "answer": 1,
+                                "tip": "主语 He 是第三人称单数，用 is。",
+                            },
+                            {
+                                "q": "They ___ at home.",
+                                "options": ["is", "are", "am"],
+                                "answer": 1,
+                                "tip": "主语 They 是第三人称复数，用 are。",
+                            },
+                        ],
+                    },
+                    {
+                        "id": "simple-present",
+                        "title": "一般现在时",
+                        "summary": "表经常性动作或客观事实，第三人称单数动词加 -s",
+                        "explanation": (
+                            "一般现在时不是“现在正在做”，而是表示习惯、经常性动作或永恒真理。"
+                            "关键难点是第三人称单数（he / she / it）：实义动词要在末尾加 -s 或 -es。"
+                        ),
+                        "examples": [
+                            {"en": "The earth moves around the sun.", "zh": "地球绕太阳转。"},
+                            {"en": "He gets up at seven every day.", "zh": "他每天七点起床。"},
+                            {"en": "I like English.", "zh": "我喜欢英语。"},
+                        ],
+                        "points": [
+                            "主语不是第三人称单数 → 动词原形（I like / You like / They like）",
+                            "主语是 he / she / it → 动词加 -s（He likes / She goes / It runs）",
+                            "动词以 s / x / o / ch / sh 结尾 → 加 -es（go → goes, watch → watches）",
+                        ],
+                        "mistakes": [
+                            "❌ He like music.（漏加 -s）",
+                            "❌ She go to school.（漏加 -s）",
+                        ],
+                        "quiz": [
+                            {
+                                "q": "My father ___ coffee every morning.",
+                                "options": ["drink", "drinks", "drinking"],
+                                "answer": 1,
+                                "tip": "father 是第三人称单数，drink 加 -s 变 drinks。",
+                            },
+                            {
+                                "q": "The sun ___ in the east.",
+                                "options": ["rise", "rises", "rose"],
+                                "answer": 1,
+                                "tip": "客观事实用一般现在时，sun 用 rises。",
+                            },
+                        ],
+                    },
+                    {
+                        "id": "there-be",
+                        "title": "there be 句型",
+                        "summary": "表示“有 / 存在”，be 动词跟名词的单复数配对",
+                        "explanation": (
+                            "there be 句型用来引出“某地有某物或某人”。核心规则：be 动词必须跟"
+                            "它后面紧跟的名词保持单复数一致，且名词通常不能用不定冠词 a/an 做主语（用 some / any / 数词等）。"
+                        ),
+                        "examples": [
+                            {"en": "There is a book on the desk.", "zh": "桌子上有一本书。"},
+                            {"en": "There are two apples in the bag.", "zh": "袋子里有两个苹果。"},
+                            {"en": "There is some water in the cup.", "zh": "杯子里有一些水。"},
+                        ],
+                        "points": [
+                            "后面名词是单数或不可数 → There is",
+                            "后面名词是复数 → There are",
+                            "疑问句把 is / are 提到句首：Is there a pen on the table?",
+                        ],
+                        "mistakes": [
+                            "❌ There are a book on the table.（a book 是单数，应用 is）",
+                            "❌ There is two students.（two students 是复数，应用 are）",
+                        ],
+                        "quiz": [
+                            {
+                                "q": "___ a cat under the table.",
+                                "options": ["There is", "There are", "There be"],
+                                "answer": 0,
+                                "tip": "a cat 是单数，用 There is。",
+                            },
+                            {
+                                "q": "___ many students in the classroom.",
+                                "options": ["There is", "There are", "There be"],
+                                "answer": 1,
+                                "tip": "many students 是复数，用 There are。",
+                            },
+                        ],
+                    },
+                ],
+            },
+            {
+                "id": "tense",
+                "name": "时态与语态",
+                "items": [
+                    {
+                        "id": "present-continuous",
+                        "title": "现在进行时",
+                        "summary": "be + doing，表示“现在正在做的事”",
+                        "explanation": (
+                            "现在进行时结构是 am / is / are + 动词-ing，重点在“现在这个时刻”。"
+                            "它和一般现在时最大的区别：一般现在时讲习惯，现在进行时讲此刻正在发生。"
+                        ),
+                        "examples": [
+                            {"en": "Look! The baby is crying.", "zh": "看！宝宝在哭。"},
+                            {"en": "We are studying English now.", "zh": "我们现在在学英语。"},
+                            {"en": "He is not sleeping.", "zh": "他没有在睡觉。"},
+                        ],
+                        "points": [
+                            "结构：主语 + am/is/is + 动词ing",
+                            "常伴 now / Look! / Listen! / at the moment 等副词",
+                            "动词加 -ing 的拼写规则：e 尾去 e 加 ing（make → making），闭音节双写末字母（run → running）",
+                        ],
+                        "mistakes": [
+                            "❌ He is sleep.（漏加 -ing）",
+                            "❌ They is playing.（主谓不配）",
+                        ],
+                        "quiz": [
+                            {
+                                "q": "Listen! Someone ___ at the door.",
+                                "options": ["knock", "is knocking", "knocks"],
+                                "answer": 1,
+                                "tip": "Listen! 提示此刻正在发生，用 is knocking。",
+                            },
+                            {
+                                "q": "They ___ a game now.",
+                                "options": ["play", "are playing", "plays"],
+                                "answer": 1,
+                                "tip": "now + 复数主语，用 are playing。",
+                            },
+                        ],
+                    },
+                    {
+                        "id": "present-perfect",
+                        "title": "现在完成时",
+                        "summary": "have/has + 过去分词，表示过去动作对现在的影响或经历",
+                        "explanation": (
+                            "现在完成时结构是 have / has + 过去分词。它的精髓是“过去做了，现在有影响或结果”，"
+                            "或者“从过去一直做到现在”。常与 already / yet / just / ever / never / for / since 搭配。"
+                        ),
+                        "examples": [
+                            {"en": "I have lost my keys.", "zh": "我钥匙丢了（现在找不到了）。"},
+                            {"en": "She has been to Beijing.", "zh": "她去过北京。（有经历）"},
+                            {"en": "We have lived here for five years.", "zh": "我们在这里住了五年了。（持续到现在）"},
+                        ],
+                        "points": [
+                            "主语是 I / you / we / they → have + 过去分词",
+                            "主语是 he / she / it → has + 过去分词",
+                            "已经 / 刚才 → already / just；还没有 / 还 → yet（多用于疑问和否定）",
+                        ],
+                        "mistakes": [
+                            "❌ I have gone to Paris.（表“去过”用 been，不是 gone）",
+                            "❌ She has saw that movie.（过去分词用 saw，应为 seen）",
+                        ],
+                        "quiz": [
+                            {
+                                "q": "She ___ to London twice.",
+                                "options": ["has gone", "has been", "went"],
+                                "answer": 1,
+                                "tip": "twice 表示经历，用 has been。",
+                            },
+                            {
+                                "q": "I ___ my homework already.",
+                                "options": ["have finished", "has finished", "finish"],
+                                "answer": 0,
+                                "tip": "I 用 have，past participle 是 finished。",
+                            },
+                        ],
+                    },
+                ],
+            },
+            {
+                "id": "clause",
+                "name": "从句",
+                "items": [
+                    {
+                        "id": "attributive-clause",
+                        "title": "定语从句",
+                        "summary": "who / which / that 引导，修饰前面的名词",
+                        "explanation": (
+                            "定语从句就像中文的“的”字，用来进一步说明前面名词的样子、身份或状态。"
+                            "引导词选 who（指人）、which（指物）、that（人物皆可）。"
+                            "先行词在从句里做主语时用 who/that，做宾语时可以用 whom/which/that，甚至可以省略。"
+                        ),
+                        "examples": [
+                            {"en": "This is the book that I bought yesterday.", "zh": "这是我昨天买的那本书。"},
+                            {"en": "The man who lives next door is a doctor.", "zh": "隔壁住着的那位是医生。"},
+                            {"en": "The dog which barks loudly is mine.", "zh": "那只大声叫的狗是我的。"},
+                        ],
+                        "points": [
+                            "先行词是人 → 用 who / that",
+                            "先行词是物 → 用 which / that",
+                            "先行词在从句里做宾语时，引导词可以省略（I like the book [that] you gave me）",
+                        ],
+                        "mistakes": [
+                            "❌ This is the book who I bought.（book 是物，不能用 who）",
+                            "❌ This is the man which lives here.（人不能用 which）",
+                        ],
+                        "quiz": [
+                            {
+                                "q": "The girl ___ is standing there is my sister.",
+                                "options": ["who", "which", "that"],
+                                "answer": 0,
+                                "tip": "girl 是人，且在从句里做主语，用 who。",
+                            },
+                            {
+                                "q": "Is this the pen ___ you lost?",
+                                "options": ["who", "which", "that"],
+                                "answer": 1,
+                                "tip": "pen 是物，用 which（that 也可，who 不行）。",
+                            },
+                        ],
+                    },
+                ],
+            },
+            {
+                "id": "non-finite",
+                "name": "非谓语动词",
+                "items": [
+                    {
+                        "id": "infinitive",
+                        "title": "不定式 (to do)",
+                        "summary": "to + 动词原形，表目的或表示“要做某事”",
+                        "explanation": (
+                            "不定式结构是 to + 动词原形。最常见两个用法："
+                            "1）表目的，相当于“为了……”（I study English to get a good job.）；"
+                            "2）作宾语，跟在 want / want to / decide to / hope to 等动词后面。"
+                        ),
+                        "examples": [
+                            {"en": "I come here to learn English.", "zh": "我来这里是为了学英语。"},
+                            {"en": "She wants to be a teacher.", "zh": "她想成为一名老师。"},
+                            {"en": "He decided to go home.", "zh": "他决定回家。"},
+                        ],
+                        "points": [
+                            "to do 表示目的时，可用 in order to 替换，意思更明确",
+                            "want / decide / hope / plan / agree 等动词后常接 to do 作宾语",
+                            "否定形式在 to 前加 not（decide not to go）",
+                        ],
+                        "mistakes": [
+                            "❌ I want go home.（want 后要接 to do，缺了 to）",
+                            "❌ He decided to not go.（not 应放在 to 前：decided not to go）",
+                        ],
+                        "quiz": [
+                            {
+                                "q": "She wants ___ a doctor.",
+                                "options": ["be", "to be", "being"],
+                                "answer": 1,
+                                "tip": "want 后接 to do，所以用 to be。",
+                            },
+                            {
+                                "q": "He came here ___ English.",
+                                "options": ["learn", "to learn", "learning"],
+                                "answer": 1,
+                                "tip": "表目的，用 to learn。",
+                            },
+                        ],
+                    },
+                ],
+            },
+        ],
+    }
+
+
+def load_grammar() -> dict:
+    if SEED_FILE.exists():
+        try:
+            data = json.loads(SEED_FILE.read_text(encoding="utf-8"))
+            if isinstance(data.get("categories"), list):
+                return data
+        except (json.JSONDecodeError, OSError):
+            pass
+    return _builtin()
+
+
+def find_item(grammar: dict, item_id: str):
+    for cat in grammar["categories"]:
+        for item in cat["items"]:
+            if item["id"] == item_id:
+                return cat, item
+    return None, None

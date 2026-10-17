@@ -25,6 +25,7 @@ from .store import (
     rename_category,
     update_link,
 )
+from .grammar import load_grammar, find_item
 
 logger = logging.getLogger("uvicorn.error")
 
@@ -219,6 +220,24 @@ async def nav_delete_link(lid: str):
         return await nav_store.mutate(lambda d: delete_link(d, lid))
     except KeyError as exc:
         raise HTTPException(status_code=404, detail=str(exc)) from exc
+
+
+# ---------------- 英语语法板块（只读，不影响其他板块） ----------------
+
+_GRAMMAR = load_grammar()
+
+
+@app.get("/api/grammar")
+async def grammar():
+    return _GRAMMAR
+
+
+@app.get("/api/grammar/{item_id}")
+async def grammar_item(item_id: str):
+    cat, item = find_item(_GRAMMAR, item_id)
+    if item is None:
+        raise HTTPException(status_code=404, detail=f"语法点不存在：{item_id}")
+    return {"category": cat["name"], "item": item}
 
 
 class ImportIn(BaseModel):

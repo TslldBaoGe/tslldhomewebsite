@@ -89,3 +89,11 @@ export const navApi = {
   deleteLink: (id) => navWrite(`/api/nav/link/${id}`, 'DELETE'),
   importFolder: (path, mode) => navWrite('/api/nav/import', 'POST', { path, mode }),
 }
+
+/* ---------------- 英语语法板块（只读） ---------------- */
+
+export async function fetchGrammar() {
+  const res = await fetch('/api/grammar')
+  if (!res.ok) throw new Error(`HTTP ${res.status}`)
+  return res.json()
+}

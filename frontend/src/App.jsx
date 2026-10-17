@@ -3,9 +3,10 @@ import { fetchNews, REFRESH_SECONDS } from './api.js'
 import Masthead from './components/Masthead.jsx'
 import Hotboard from './components/Hotboard.jsx'
 import NavPage from './components/NavPage.jsx'
+import GrammarPage from './components/GrammarPage.jsx'
 
 export default function App() {
-  const [view, setView] = useState('news') // news | nav
+  const [view, setView] = useState('news') // news | nav | grammar
   const [platform, setPlatform] = useState('codefather')
   const [boards, setBoards] = useState(null)
   const [updatedAt, setUpdatedAt] = useState(null)
@@ -69,6 +70,12 @@ export default function App() {
           >
             导航板块
           </button>
+          <button
+            className={view === 'grammar' ? 'sec active' : 'sec'}
+            onClick={() => setView('grammar')}
+          >
+            语法板块
+          </button>
           <span className="sec-rule" aria-hidden="true" />
         </nav>
 
@@ -81,6 +88,8 @@ export default function App() {
 
         {view === 'nav' ? (
           <NavPage />
+        ) : view === 'grammar' ? (
+          <GrammarPage />
         ) : (
           <Hotboard
             boards={boards}
