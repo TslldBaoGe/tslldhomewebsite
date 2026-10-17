@@ -6,6 +6,7 @@ const PLATFORMS = [
   { id: 'douyin', name: '抖音热搜', hue: 'douyin' },
   { id: 'weibo', name: '微博热搜', hue: 'weibo' },
   { id: 'bilibili', name: 'B站热搜', hue: 'bilibili' },
+  { id: 'cctv', name: '央视新闻', hue: 'cctv' },
 ]
 
 const TAG_CLASS = {
@@ -69,7 +70,10 @@ export default function Hotboard({ boards, platform, onPlatform, loading, errors
                   href={item.url}
                   style={{ '--d': `${Math.min(i, 20) * 28}ms` }}
                 >
-                  <span className="title">{item.title}</span>
+                  <span className="title">
+                    {item.tag && <em className="feed-tag">{item.tag}</em>}
+                    {item.title}
+                  </span>
                   {item.summary && <span className="summary">{item.summary}</span>}
                 </a>
               </li>

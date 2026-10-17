@@ -14,7 +14,7 @@ from pydantic import BaseModel
 
 from .cache import TTLCache
 from . import nav_import
-from .sources import bilibili, codefather, douyin, weibo, zhihu
+from .sources import bilibili, cctv, codefather, douyin, weibo, zhihu
 from .store import (
     NavStore,
     add_category,
@@ -48,6 +48,7 @@ SOURCES = {
     "zhihu": zhihu.fetch_zhihu_hot,
     "bilibili": bilibili.fetch_bilibili_hot,
     "codefather": codefather.fetch_codefather_news,
+    "cctv": cctv.fetch_cctv_news,
 }
 
 

@@ -98,6 +98,7 @@ start.bat
 | `GET /api/news/zhihu` | 知乎热榜 30 条 |
 | `GET /api/news/bilibili` | B站热搜 50 条 |
 | `GET /api/news/codefather` | AI 资讯（鱼皮AI导航）20 条，带摘要 |
+| `GET /api/news/cctv` | 央视新闻（新闻联播分条提要）约 40 条 |
 | `GET /api/nav` | 导航板块数据（分类 + 链接） |
 | `POST /api/nav/auth` | 校验管理密码 |
 | `POST/PUT/DELETE /api/nav/category[...]` | 分类管理（需 `X-Admin-Token`） |
@@ -110,6 +111,8 @@ start.bat
 - 知乎走 `api.zhihu.com` 移动端热榜接口（无需鉴权）
 - B站走 `api.bilibili.com/x/web-interface/search/square`
 - AI 资讯无公开接口，解析 `ai.codefather.cn/news` 页面内嵌的 RSC 数据
+- 央视新闻走 CNTV 公开接口（`api.cntv.cn`）：取新闻联播最近 3 期，解析每期「本期节目主要内容」
+  提要，拆出分条新闻；点击条目跳转当期联播视频页
 
 后端对上游结果做 5 分钟缓存，网络抖动自动重试 3 次，避免触发风控。
 新增平台：在 `backend/app/sources/` 写一个适配器（返回 `platform/name/fetched_at/items`），
