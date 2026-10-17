@@ -26,6 +26,7 @@ from pathlib import Path
 
 # 各章节内容分模块存放，便于维护和扩展
 from .grammar_basics import CATEGORIES as _BASICS
+from .grammar_tense import CATEGORIES as _TENSE
 from .grammar_high_freq import CATEGORIES as _HIGH_FREQ
 from .grammar_common import CATEGORIES as _COMMON
 from .grammar_challenge import CATEGORIES as _CHALLENGE
@@ -37,6 +38,7 @@ SEED_FILE = Path(__file__).resolve().parent / "seed_grammar.json"
 def _builtin() -> dict:
     categories = []
     categories.extend(_BASICS)
+    categories.extend(_TENSE)
     categories.extend(_HIGH_FREQ)
     categories.extend(_COMMON)
     categories.extend(_CHALLENGE)

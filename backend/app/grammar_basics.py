@@ -1,4 +1,4 @@
-"""附录 基础语法 + 基础入门知识点"""
+"""基础语法入门 + 附录（时态/语态/情态逐项详解见 grammar_tense.py）"""
 
 CATEGORIES = [
     {
@@ -25,8 +25,8 @@ CATEGORIES = [
                     "主语是 you / we / they 或复数名词 → 用 are",
                 ],
                 "mistakes": [
-                    "❌ I is a student。（主语和动词不配对）",
-                    "❌ She am tall。（人称用错了）",
+                    "❌ I is a student.（主语和动词不配对）",
+                    "❌ She am tall.（人称用错了）",
                 ],
                 "quiz": [
                     {
@@ -44,123 +44,12 @@ CATEGORIES = [
                 ],
             },
             {
-                "id": "simple-present",
-                "title": "一般现在时",
-                "summary": "表经常性动作或客观事实，第三人称单数动词加 -s",
-                "explanation": (
-                    "一般现在时不是“现在正在做”，而是表示习惯、经常性动作或永恒真理。"
-                    "关键难点是第三人称单数（he / she / it）：实义动词要在末尾加 -s 或 -es。"
-                ),
-                "examples": [
-                    {"en": "The earth moves around the sun.", "zh": "地球绕太阳转。"},
-                    {"en": "He gets up at seven every day.", "zh": "他每天七点起床。"},
-                    {"en": "I like English.", "zh": "我喜欢英语。"},
-                ],
-                "points": [
-                    "主语不是第三人称单数 → 动词原形（I like / You like / They like）",
-                    "主语是 he / she / it → 动词加 -s（He likes / She goes / It runs）",
-                    "动词以 s / x / o / ch / sh 结尾 → 加 -es（go → goes, watch → watches）",
-                ],
-                "mistakes": [
-                    "❌ He like music.（漏加 -s）",
-                    "❌ She go to school.（漏加 -s）",
-                ],
-                "quiz": [
-                    {
-                        "q": "My father ___ coffee every morning.",
-                        "options": ["drink", "drinks", "drinking"],
-                        "answer": 1,
-                        "tip": "father 是第三人称单数，drink 加 -s 变 drinks。"
-                    },
-                    {
-                        "q": "The sun ___ in the east.",
-                        "options": ["rise", "rises", "rose"],
-                        "answer": 1,
-                        "tip": "客观事实用一般现在时，sun 用 rises。"
-                    },
-                ],
-            },
-            {
-                "id": "present-continuous",
-                "title": "现在进行时",
-                "summary": "be + doing，表示“现在正在做的事”",
-                "explanation": (
-                    "现在进行时结构是 am / is / are + 动词-ing，重点在“现在这个时刻”。"
-                    "它和一般现在时最大的区别：一般现在时讲习惯，现在进行时讲此刻正在发生。"
-                ),
-                "examples": [
-                    {"en": "Look! The baby is crying.", "zh": "看！宝宝在哭。"},
-                    {"en": "We are studying English now.", "zh": "我们现在在学英语。"},
-                    {"en": "He is not sleeping.", "zh": "他没有在睡觉。"},
-                ],
-                "points": [
-                    "结构：主语 + am/is/are + 动词-ing",
-                    "常伴 now / Look! / Listen! / at the moment 等副词",
-                    "动词加 -ing 的拼写规则：e 尾去 e 加 ing（make → making），闭音节双写末字母（run → running）",
-                ],
-                "mistakes": [
-                    "❌ He is sleep.（漏加 -ing）",
-                    "❌ They is playing.（主谓不配）",
-                ],
-                "quiz": [
-                    {
-                        "q": "Listen! Someone ___ at the door.",
-                        "options": ["knock", "is knocking", "knocks"],
-                        "answer": 1,
-                        "tip": "Listen! 提示此刻正在发生，用 is knocking。"
-                    },
-                    {
-                        "q": "They ___ a game now.",
-                        "options": ["play", "are playing", "plays"],
-                        "answer": 1,
-                        "tip": "now + 复数主语，用 are playing。"
-                    },
-                ],
-            },
-            {
-                "id": "present-perfect",
-                "title": "现在完成时",
-                "summary": "have/has + 过去分词，表示过去动作对现在的影响或经历",
-                "explanation": (
-                    "现在完成时结构是 have / has + 过去分词。它的精髓是“过去做了，现在有影响或结果”，"
-                    "或者“从过去一直做到现在”。常与 already / yet / just / ever / never / for / since 搭配。"
-                ),
-                "examples": [
-                    {"en": "I have lost my keys.", "zh": "我钥匙丢了（现在找不到了）。"},
-                    {"en": "She has been to Beijing.", "zh": "她去过北京。（有经历）"},
-                    {"en": "We have lived here for five years.", "zh": "我们在这里住了五年了。（持续到现在）"},
-                ],
-                "points": [
-                    "主语是 I / you / we / they → have + 过去分词",
-                    "主语是 he / she / it → has + 过去分词",
-                    "已经 / 刚才 → already / just；还没有 / 还 → yet（多用于疑问和否定）",
-                ],
-                "mistakes": [
-                    "❌ I have gone to Paris.（表“去过”用 been，不是 gone）",
-                    "❌ She has saw that movie.（过去分词用 saw，应为 seen）",
-                ],
-                "quiz": [
-                    {
-                        "q": "She ___ to London twice.",
-                        "options": ["has gone", "has been", "went"],
-                        "answer": 1,
-                        "tip": "twice 表示经历，用 has been。"
-                    },
-                    {
-                        "q": "I ___ my homework already.",
-                        "options": ["have finished", "has finished", "finish"],
-                        "answer": 0,
-                        "tip": "I 用 have，past participle 是 finished。"
-                    },
-                ],
-            },
-            {
                 "id": "there-be",
                 "title": "There be 句型",
                 "summary": "表示“有 / 存在”，be 动词跟名词的单复数配对",
                 "explanation": (
                     "there be 句型用来引出“某地有某物或某人”。核心规则：be 动词必须跟"
-                    "它后面紧跟的名词保持单复数一致，且名词通常不能用不定冠词 a/an 做主语（用 some / any / 数词等）。"
+                    "它后面紧跟的名词保持单复数一致。"
                 ),
                 "examples": [
                     {"en": "There is a book on the desk.", "zh": "桌子上有一本书。"},
@@ -197,46 +86,6 @@ CATEGORIES = [
         "id": "appendix",
         "name": "附录 基础语法",
         "items": [
-            {
-                "id": "appendix-tense",
-                "title": "时态扫描",
-                "summary": "一般现在时、现在进行时、现在完成时、一般过去时、一般将来时等快速对照",
-                "explanation": (
-                    "英语主要时态可分为四大时态（一般、进行、完成、完成进行）× 三大时间（过去、现在、将来），"
-                    "共 12 种。基础学习重点掌握：一般现在时（习惯/真理）、现在进行时（此刻正在）、"
-                    "现在完成时（过去对现在的影响）、一般过去时（过去的事）、一般将来时（将要发生）。"
-                    "关键是判断“时间状语”和“动作与现在的关系”。"
-                ),
-                "examples": [
-                    {"en": "I work here. I am working now. I have worked here for 3 years.", "zh": "我在这里工作。我现在正在工作。我在这里工作了3年了。"},
-                    {"en": "I worked there last year. I will work there tomorrow.", "zh": "我去年在那里工作。我明天将在那里工作。"},
-                ],
-                "points": [
-                    "一般现在时：表示习惯、真理，常与 always / usually / every day 搭配",
-                    "现在进行时：表示此刻正在，常与 now / at the moment 搭配",
-                    "现在完成时：强调对现在的影响，常与 already / yet / for / since 搭配",
-                    "一般过去时：表示过去发生的动作，常与 yesterday / last week / in 2020 搭配",
-                    "一般将来时：will / be going to + 动词原形",
-                ],
-                "mistakes": [
-                    "❌ I am work here.（现在进行时不能用于状态类习惯）",
-                    "❌ I have worked here yesterday.（完成时不能与过去时间状语连用）",
-                ],
-                "quiz": [
-                    {
-                        "q": "I ______ English for three years.",
-                        "options": ["learn", "am learning", "have learned", "learned"],
-                        "answer": 2,
-                        "tip": "for three years 表示持续到现在，用现在完成时 have learned。"
-                    },
-                    {
-                        "q": "She ______ to the cinema last night.",
-                        "options": ["goes", "went", "has gone", "will go"],
-                        "answer": 1,
-                        "tip": "last night 是过去时间状语，用一般过去时 went。"
-                    },
-                ],
-            },
             {
                 "id": "appendix-voice",
                 "title": "语态扫描",
