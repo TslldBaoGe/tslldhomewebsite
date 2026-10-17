@@ -10,10 +10,10 @@
   --ink-raised: #f4f3ef;
   --line: #e4e2dc;
   --line-strong: #c6c3ba;
-  --paper: #2e2a24;
-  --paper-bright: #14110c;
-  --paper-dim: #6e6960;
-  --paper-faint: #99948a;
+  --paper: #1b1712;
+  --paper-bright: #0a0805;
+  --paper-dim: #4a453c;
+  --paper-faint: #6d675c;
 
   --vermilion: #d8402a;
   --ember: #c14a1d;
@@ -46,10 +46,10 @@ html[data-theme='dark'] {
   --ink-raised: #221c14;
   --line: #352c1f;
   --line-strong: #4a3d2a;
-  --paper: #ece1cb;
-  --paper-bright: #fff8ea;
-  --paper-dim: #a08f74;
-  --paper-faint: #6d5f4a;
+  --paper: #f4ebd9;
+  --paper-bright: #fffdf7;
+  --paper-dim: #c0b096;
+  --paper-faint: #8d7d63;
 
   --vermilion: #e8492d;
   --ember: #ff6a3a;
@@ -453,6 +453,7 @@ body::after {
 .title {
   font-family: var(--serif);
   font-size: 15.5px;
+  font-weight: 500;
   line-height: 1.5;
   color: var(--paper);
   word-break: break-word;
@@ -956,6 +957,7 @@ body::after {
   flex: 1;
   font-family: var(--serif);
   font-size: 13.5px;
+  font-weight: 500;
   color: var(--paper);
   text-decoration: none;
   white-space: nowrap;
