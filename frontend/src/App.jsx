@@ -7,7 +7,7 @@ import GrammarPage from './components/GrammarPage.jsx'
 
 export default function App() {
   const [view, setView] = useState('news') // news | nav | grammar
-  const [platform, setPlatform] = useState('codefather')
+  const [platform, setPlatform] = useState('zhihu')
   const [boards, setBoards] = useState(null)
   const [updatedAt, setUpdatedAt] = useState(null)
   const [errors, setErrors] = useState({})
