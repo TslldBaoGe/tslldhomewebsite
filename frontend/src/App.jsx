@@ -2,23 +2,9 @@ import { useCallback, useEffect, useState } from 'react'
 import { fetchNews, REFRESH_SECONDS } from './api.js'
 import Masthead from './components/Masthead.jsx'
 import Hotboard from './components/Hotboard.jsx'
-import NavPage from './components/NavPage.jsx'
-import GrammarPage from './components/GrammarPage.jsx'
-
-// 生产构建可通过 VITE_HIDDEN_SECTIONS 隐藏板块（如 "nav,grammar"）
-// 本地开发不设置时全部显示
-const HIDDEN_SECTIONS = new Set(
-  (import.meta.env.VITE_HIDDEN_SECTIONS || '')
-    .split(',')
-    .map((s) => s.trim().toLowerCase())
-    .filter(Boolean),
-)
 
 export default function App() {
-  const [view, setView] = useState('news') // news | nav | grammar
   const [platform, setPlatform] = useState('zhihu')
-  const showNav = !HIDDEN_SECTIONS.has('nav')
-  const showGrammar = !HIDDEN_SECTIONS.has('grammar')
   const [boards, setBoards] = useState(null)
   const [updatedAt, setUpdatedAt] = useState(null)
   const [errors, setErrors] = useState({})
@@ -68,58 +54,24 @@ export default function App() {
         onRefresh={() => load(true)}
       />
       <main className="main">
-        <nav className="sections" aria-label="板块切换">
-          <button
-            className={view === 'news' ? 'sec active' : 'sec'}
-            onClick={() => setView('news')}
-          >
-            新闻板块
-          </button>
-          {showNav && (
-            <button
-              className={view === 'nav' ? 'sec active' : 'sec'}
-              onClick={() => setView('nav')}
-            >
-              导航板块
-            </button>
-          )}
-          {showGrammar && (
-            <button
-              className={view === 'grammar' ? 'sec active' : 'sec'}
-              onClick={() => setView('grammar')}
-            >
-              语法板块
-            </button>
-          )}
-          <span className="sec-rule" aria-hidden="true" />
-        </nav>
-
         {errors._global && (
           <div className="notice error">
             <p>{errors._global}</p>
             <button onClick={() => load(true)}>重试</button>
           </div>
         )}
-
-        {showNav && view === 'nav' ? (
-          <NavPage />
-        ) : showGrammar && view === 'grammar' ? (
-          <GrammarPage />
-        ) : (
-          <Hotboard
-            boards={boards}
-            platform={platform}
-            onPlatform={setPlatform}
-            loading={loading}
-            errors={errors}
-            refreshing={refreshing}
-            onRefresh={() => load(true)}
-          />
-        )}
+        <Hotboard
+          boards={boards}
+          platform={platform}
+          onPlatform={setPlatform}
+          loading={loading}
+          errors={errors}
+          refreshing={refreshing}
+          onRefresh={() => load(true)}
+        />
       </main>
       <footer className="footer">
-        <p>数据来源：微博 · 抖音 · 知乎 · B站 · 鱼皮AI导航，每 {Math.round(REFRESH_SECONDS / 60)} 分钟自动更新</p>
-        <p className="tech">React + FastAPI · 由 TSLL Newsdesk 驱动</p>
+        <p>数据来源：知乎热榜 · AI资讯 · 央视新闻 · 微博热搜 · 抖音热搜 · B站热搜，每 5 分钟自动更新</p>
       </footer>
     </div>
   )

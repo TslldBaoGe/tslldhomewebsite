@@ -73,16 +73,6 @@ export default function Masthead({ updatedAt, secondsLeft, refreshing, onRefresh
   return (
     <header className="masthead">
       <div className="mast-inner">
-        <div className="brand">
-          <span className="seal" aria-hidden="true">
-            热
-          </span>
-          <div className="brand-text">
-            <h1>TSLL 热榜</h1>
-            <p className="kicker">PERSONAL NEWSDESK · 新闻板块</p>
-          </div>
-        </div>
-
         <div className="meta">
           <p className="date">{dateStr}</p>
           <div className="status">

@@ -134,7 +134,7 @@ body::after {
 .mast-inner {
   display: flex;
   align-items: flex-end;
-  justify-content: space-between;
+  justify-content: flex-end;
   gap: 20px;
   flex-wrap: wrap;
   padding-bottom: 20px;
