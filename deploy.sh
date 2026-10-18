@@ -8,6 +8,8 @@
 set -euo pipefail
 
 REPO_URL="https://github.com/TslldBaoGe/tslldhomewebsite.git"
+# 端口优先级：环境变量 > .env 文件 > 默认 8090
+WEB_PORT="${WEB_PORT:-$(grep -E '^WEB_PORT=' .env 2>/dev/null | tail -1 | cut -d= -f2)}"
 WEB_PORT="${WEB_PORT:-8090}"
 export WEB_PORT
 
