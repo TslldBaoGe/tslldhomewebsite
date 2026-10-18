@@ -5,6 +5,8 @@ services:
       args:
         DOCKERHUB_MIRROR: ${DOCKERHUB_MIRROR:-docker.m.daocloud.io}
         NPM_REGISTRY: ${NPM_REGISTRY:-https://registry.npmmirror.com}
+        # 生产默认只保留新闻板块；需要全部板块时在 .env 里设 HIDDEN_SECTIONS=
+        VITE_HIDDEN_SECTIONS: ${HIDDEN_SECTIONS:-nav,grammar}
     container_name: tslldwebsite
     restart: unless-stopped
     ports:

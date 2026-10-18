@@ -5,9 +5,20 @@ import Hotboard from './components/Hotboard.jsx'
 import NavPage from './components/NavPage.jsx'
 import GrammarPage from './components/GrammarPage.jsx'
 
+// 生产构建可通过 VITE_HIDDEN_SECTIONS 隐藏板块（如 "nav,grammar"）
+// 本地开发不设置时全部显示
+const HIDDEN_SECTIONS = new Set(
+  (import.meta.env.VITE_HIDDEN_SECTIONS || '')
+    .split(',')
+    .map((s) => s.trim().toLowerCase())
+    .filter(Boolean),
+)
+
 export default function App() {
   const [view, setView] = useState('news') // news | nav | grammar
   const [platform, setPlatform] = useState('zhihu')
+  const showNav = !HIDDEN_SECTIONS.has('nav')
+  const showGrammar = !HIDDEN_SECTIONS.has('grammar')
   const [boards, setBoards] = useState(null)
   const [updatedAt, setUpdatedAt] = useState(null)
   const [errors, setErrors] = useState({})
@@ -64,18 +75,22 @@ export default function App() {
           >
             新闻板块
           </button>
-          <button
-            className={view === 'nav' ? 'sec active' : 'sec'}
-            onClick={() => setView('nav')}
-          >
-            导航板块
-          </button>
-          <button
-            className={view === 'grammar' ? 'sec active' : 'sec'}
-            onClick={() => setView('grammar')}
-          >
-            语法板块
-          </button>
+          {showNav && (
+            <button
+              className={view === 'nav' ? 'sec active' : 'sec'}
+              onClick={() => setView('nav')}
+            >
+              导航板块
+            </button>
+          )}
+          {showGrammar && (
+            <button
+              className={view === 'grammar' ? 'sec active' : 'sec'}
+              onClick={() => setView('grammar')}
+            >
+              语法板块
+            </button>
+          )}
           <span className="sec-rule" aria-hidden="true" />
         </nav>
 
@@ -86,9 +101,9 @@ export default function App() {
           </div>
         )}
 
-        {view === 'nav' ? (
+        {showNav && view === 'nav' ? (
           <NavPage />
-        ) : view === 'grammar' ? (
+        ) : showGrammar && view === 'grammar' ? (
           <GrammarPage />
         ) : (
           <Hotboard

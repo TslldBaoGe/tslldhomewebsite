@@ -6,6 +6,9 @@ ARG DOCKERHUB_MIRROR=docker.m.daocloud.io
 ARG NPM_REGISTRY=https://registry.npmmirror.com
 FROM ${DOCKERHUB_MIRROR}/node:22-alpine AS frontend
 ARG NPM_REGISTRY
+# 生产构建隐藏的板块（逗号分隔：nav,grammar）；留空则全部显示
+ARG VITE_HIDDEN_SECTIONS=""
+ENV VITE_HIDDEN_SECTIONS=$VITE_HIDDEN_SECTIONS
 WORKDIR /build
 RUN npm config set registry "$NPM_REGISTRY"
 COPY frontend/package.json frontend/package-lock.json ./
